@@ -1,5 +1,7 @@
 #include "Menu.h"
 #include <vector>
+
+#include "Boss.h"
 #include "imgui_helpers.h"
 namespace Menu
 {
@@ -27,10 +29,10 @@ namespace Menu
 		}
 
 		ImGui::SameLine();
-		ImGui::Button("Set", ImVec2(50, 20));
+		ImGui::Button("Set", ImVec2(70, 26));
 
 		ImGui::SameLine();
-		if (ImGui::Button("Remove", ImVec2(50, 20)))
+		if (ImGui::Button("Remove", ImVec2(70, 26)))
 		{
 			if (!bossNameVector.empty())
 			{
@@ -49,22 +51,23 @@ namespace Menu
 	{
 		if (*p_open)
 		{
-			if (ImGui::Begin("Add boss", p_open))
+			if (ImGui::Begin("Add boss", p_open, ImGuiWindowFlags_AlwaysAutoResize))
 			{
 				static char bossName[50]{};
 				ImGui::Text("Boss name");
 				ImGui::SameLine();
 				ImGui::InputText("", bossName, 50);
 				ImGui::SameLine();
-				if (ImGui::Button("Add", ImVec2(50, 20)))
+				if (ImGui::Button("Add", ImVec2(70, 26)))
 				{
 					if (bossName[0] != '\0')
 					{
 						bossNameVector.emplace_back(bossName);
 					}
 				}
-				ImGui::End();
+				// ImGui::End();
 			}
+			ImGui::End();
 		}
 	}
 
@@ -80,34 +83,26 @@ namespace Menu
 		}
 	}
 
-
-	enum BossState
-	{
-		None = 0,
-		NotStarted = 1,
-		Started = 2,
-		Paused = 3,
-		Dead = 4
-	};
 	void ShowMenuBossInfo()
 	{
 		ImGui::PushFont(customFont);
-		ImGui::NewLine();
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Boss name: ").x));
 		ImGui::Text("Boss name: ");
 		ImGui::SameLine();
 		ImGui::Text("Pontyfik");
 
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Time: ").x));
 		ImGui::Text("Time: ");
 		ImGui::SameLine();
 		ImGui::Text("00:07:12");
 
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Deaths: ").x));
 		ImGui::Text("Deaths: ");
 		ImGui::SameLine();
 		ImGui::Text("50");
 
 
-		ImGui::Text("State: ");
-		ImGui::SameLine();
+		
 		auto s = Dead;
 
 		static ImVec4 textClr;
@@ -145,25 +140,53 @@ namespace Menu
 				break;
 			}
 		}
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("State: ").x));
+		ImGui::Text("State: ");
+		ImGui::SameLine();
 		ImGui::TextColored(textClr, statusText.c_str());
 
-		ImGui::PushStyleColor(ImGuiCol_Button, {0, 255, 0, 255});
-		ImGui::Button("Start");
+
+		// Buttons
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Start").x) - (ImGui::CalcTextSize("Pause").x));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::RGBAtoIV4(0, 90, 0 , 0.5f));
+		ImGui::Button("Start", {70, 35});
 		ImGui::PopStyleColor();
 
 		ImGui::SameLine();
 
-		ImGui::PushStyleColor(ImGuiCol_Button, {255, 255, 0, 255});
-		ImGui::Button("Pause");
+		ImGui::PushStyleColor(ImGuiCol_Button, {255, 255, 0, 0.5f});
+		ImGui::Button("Pause", {70, 35});
 		ImGui::PopStyleColor();
 
 		ImGui::SameLine();
 
-		ImGui::PushStyleColor(ImGuiCol_Button, {255, 0, 0, 255});
-		ImGui::Button("End");
-		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_Button, {255, 0, 0, 0.5f});
+		static bool showEndConfirmation = false;
+		if (ImGui::Button("End", {70, 35}))
+			showEndConfirmation = !showEndConfirmation;
 
+		ImGui::PopStyleColor();
 		ImGui::PopFont();
+
+		
+		if (showEndConfirmation)
+		{
+			if (ImGui::Begin("End confirm", &showEndConfirmation, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
+			{
+				ImGui::Text("Do you really want to end the boss fight?");
+				if (ImGui::Button("Yes"))
+				{
+					showEndConfirmation = !showEndConfirmation;
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("No"))
+				{
+					showEndConfirmation = !showEndConfirmation;
+				}
+			}
+			ImGui::End();
+		}
+		
 	}
 
 	void ShowMenu()
@@ -197,8 +220,9 @@ namespace Menu
 			ImGui::PushFont(overlayFont);
 			ImGui::Text("0");
 			ImGui::PopFont();
-			ImGui::End();
+			
 		}
+		ImGui::End();
 	}
 
 	void ShowBossInfo()
@@ -214,8 +238,8 @@ namespace Menu
 			ImGui::Text("00:01:20");
 			ImGui::Text("50");
 			ImGui::PopFont();
-			ImGui::End();
 		}
+		ImGui::End();
 	}
 
 	void ShowOverlay()

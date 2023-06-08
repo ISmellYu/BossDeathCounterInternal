@@ -6,6 +6,7 @@
 #include <thread>
 #include "Roboto.h"
 #include "Garamond.h"
+#include "imgui_helpers.h"
 #include "Menu.h"
 #include "../Directories/ImGui/imgui.h"
 #include "../Directories/ImGui/imgui_impl_dx11.h"
@@ -91,8 +92,9 @@ void SetupFonts()
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
-	Menu::overlayFont = io.Fonts->AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, 0, 20.f);
-	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, 0, 15.0f);
+	Menu::overlayFont = io.Fonts->AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, 1, 20.f);
+	io.FontDefault = Menu::overlayFont;
+	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, 1, 30.0f);
 }
 
 HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
@@ -137,7 +139,8 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 	
 	
 	ImGui::NewFrame();
-	ImGui::StyleColorsDark();
+	// ImGui::StyleColorsDark();
+	ImGui::SetupImGuiStyle(true, 1.f);
 	Menu::ShowOverlay();
 
 	ImGui::GetIO().MouseDrawCursor = ShowMenu;

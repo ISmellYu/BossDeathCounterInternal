@@ -146,5 +146,11 @@
     <ClCompile Include="Garamond.h">
       <Filter>Fonts</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Main\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Main\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

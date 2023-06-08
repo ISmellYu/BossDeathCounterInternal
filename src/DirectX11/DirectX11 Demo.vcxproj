@@ -55,7 +55,9 @@
     <ClCompile Include="..\Directories\MinHook\Src\hde\hde64.c" />
     <ClCompile Include="..\Directories\MinHook\Src\hook.c" />
     <ClCompile Include="..\Directories\MinHook\Src\trampoline.c" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="DirectX11Demo.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Garamond.h" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Roboto.h" />
