@@ -36,11 +36,17 @@
     <ClInclude Include="..\Directories\MinHook\Src\trampoline.h" />
     <ClInclude Include="..\Global.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossTimeStamp.h" />
     <ClInclude Include="DirectX11.h" />
     <ClInclude Include="DirectX11Demo.h" />
+    <ClInclude Include="fa_solid_900.h" />
+    <ClInclude Include="font_awesome_5.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="imgui_helpers.h" />
+    <ClInclude Include="imgui_notify.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="tahoma.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Directories\ImGui\imgui.cpp" />
@@ -58,9 +64,9 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="DirectX11Demo.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Garamond.h" />
+    <ClCompile Include="garamond.h" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Roboto.h" />
+    <ClCompile Include="roboto.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

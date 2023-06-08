@@ -3,9 +3,11 @@
 
 #include "Boss.h"
 #include "imgui_helpers.h"
+#include "imgui_notify.h"
+#include "State.h"
+
 namespace Menu
 {
-	static std::vector<std::string> bossNameVector;
 	static std::string preview_value;
 	static int current_item_index = 0;
 
@@ -13,13 +15,13 @@ namespace Menu
 	{
 		if (ImGui::BeginCombo("", preview_value.c_str()))
 		{
-			for (int n = 0; n < bossNameVector.size(); n++)
+			for (int n = 0; n < State::currentGame->bosses.size(); n++)
 			{
 				const bool is_selected = (current_item_index == n);
-				if (ImGui::Selectable(bossNameVector[n].c_str(), is_selected))
+				if (ImGui::Selectable(State::currentGame->bosses[n]->bossName.c_str(), is_selected))
 				{
 					current_item_index = n;
-					preview_value = bossNameVector[n];
+					preview_value = State::currentGame->bosses[n]->bossName;
 				}
 
 				if (is_selected)
@@ -29,17 +31,24 @@ namespace Menu
 		}
 
 		ImGui::SameLine();
-		ImGui::Button("Set", ImVec2(70, 26));
+		if (ImGui::Button("Set", ImVec2(70, 26)))
+		{
+			if (!State::currentGame->bosses.empty())
+			{
+				State::currentGame->SetCurrentBoss(State::currentGame->bosses[current_item_index]->bossName);
+				ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss set!"});
+			}
+		}
 
 		ImGui::SameLine();
 		if (ImGui::Button("Remove", ImVec2(70, 26)))
 		{
-			if (!bossNameVector.empty())
+			if (!State::currentGame->bosses.empty())
 			{
 				// make sure that
-				bossNameVector.erase(bossNameVector.begin() + current_item_index);
-
-				if (bossNameVector.size() == current_item_index)
+				State::currentGame->RemoveBoss(State::currentGame->bosses[current_item_index]->bossName);
+				ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss removed!"});
+				if (State::currentGame->bosses.size() == current_item_index)
 				{
 					current_item_index--;
 				}
@@ -62,7 +71,8 @@ namespace Menu
 				{
 					if (bossName[0] != '\0')
 					{
-						bossNameVector.emplace_back(bossName);
+						State::currentGame->bosses.emplace_back(std::make_shared<Boss>(bossName));
+						ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss added!"});
 					}
 				}
 				// ImGui::End();
@@ -73,41 +83,43 @@ namespace Menu
 
 	void HandlePreviewValue()
 	{
-		if (bossNameVector.empty())
+		if (State::currentGame->bosses.empty())
 		{
 			preview_value = "";
 		}
 		else
 		{
-			preview_value = bossNameVector[current_item_index];
+			if (current_item_index == -1)
+				current_item_index = 0;
+			preview_value = State::currentGame->bosses[current_item_index]->bossName;
 		}
 	}
 
 	void ShowMenuBossInfo()
 	{
+		std::shared_ptr<Boss> currentBoss = State::currentGame->currentBoss;
+		if (currentBoss == nullptr)
+			return;
 		ImGui::PushFont(customFont);
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Boss name: ").x));
 		ImGui::Text("Boss name: ");
 		ImGui::SameLine();
-		ImGui::Text("Pontyfik");
+		ImGui::Text(currentBoss->bossName.c_str());
 
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Time: ").x));
 		ImGui::Text("Time: ");
 		ImGui::SameLine();
-		ImGui::Text("00:07:12");
+		auto timestamp = currentBoss->GetElapsedTime();
+		ImGui::Text("%02d:%02d:%02d", timestamp.GetHours(), timestamp.GetMinutes(), timestamp.GetSeconds());
 
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Deaths: ").x));
 		ImGui::Text("Deaths: ");
 		ImGui::SameLine();
-		ImGui::Text("50");
-
-
-		
-		auto s = Dead;
+		ImGui::Text("%d", currentBoss->deaths);
 
 		static ImVec4 textClr;
 		static std::string statusText;
-		switch (s)
+		switch (currentBoss->state)
 		{
 		case NotStarted:
 			{
@@ -149,7 +161,24 @@ namespace Menu
 		// Buttons
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Start").x) - (ImGui::CalcTextSize("Pause").x));
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::RGBAtoIV4(0, 90, 0 , 0.5f));
-		ImGui::Button("Start", {70, 35});
+		if (ImGui::Button("Start", {70, 35}))
+		{
+			if (currentBoss->state == NotStarted)
+			{
+				if (currentBoss->StartBoss())
+				{
+					ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss started!"});
+				}
+				else
+				{
+					ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Something went wrong when tried to start the boss!"});
+				}
+			}
+			else
+			{
+				ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant start boss!"});
+			}
+		}
 		ImGui::PopStyleColor();
 
 		ImGui::SameLine();
@@ -163,7 +192,17 @@ namespace Menu
 		ImGui::PushStyleColor(ImGuiCol_Button, {255, 0, 0, 0.5f});
 		static bool showEndConfirmation = false;
 		if (ImGui::Button("End", {70, 35}))
-			showEndConfirmation = !showEndConfirmation;
+		{
+			if (currentBoss->state == Paused || currentBoss->state == Started)
+			{
+				showEndConfirmation = !showEndConfirmation;
+			}
+			else
+			{
+				ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant end boss!"});
+			}
+		}
+			
 
 		ImGui::PopStyleColor();
 		ImGui::PopFont();
@@ -176,8 +215,24 @@ namespace Menu
 				ImGui::Text("Do you really want to end the boss fight?");
 				if (ImGui::Button("Yes"))
 				{
+					if (currentBoss->state == Paused || currentBoss->state == Started)
+					{
+						if (currentBoss->EndBoss())
+						{
+							ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss ended!"});
+						}
+						else
+						{
+							ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Something went wrong when tried to end the boss!"});
+						}
+					}
+					else
+					{
+						ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant end boss!"});
+					}
 					showEndConfirmation = !showEndConfirmation;
 				}
+				
 				ImGui::SameLine();
 				if (ImGui::Button("No"))
 				{
@@ -212,13 +267,16 @@ namespace Menu
 
 	void ShowDeathCounter()
 	{
+		if (State::currentGame == nullptr)
+			return;
+
 		ImGuiWindowFlags flags;
 		ImGui::SetWindowOverlayPos(0, &flags);
 
 		if (ImGui::Begin("##DEATHCOUNTER", 0, flags))
 		{
 			ImGui::PushFont(overlayFont);
-			ImGui::Text("0");
+			ImGui::Text("%d", State::currentGame->deaths);
 			ImGui::PopFont();
 			
 		}
@@ -227,6 +285,9 @@ namespace Menu
 
 	void ShowBossInfo()
 	{
+		std::shared_ptr<Boss> currentBoss = State::currentGame->currentBoss;
+		if (currentBoss == nullptr)
+			return;
 		ImGuiWindowFlags flags;
 		ImGui::SetWindowOverlayPos(1, &flags);
 
@@ -234,9 +295,10 @@ namespace Menu
 		if (ImGui::Begin("##BOSSINFO", 0, flags))
 		{
 			ImGui::PushFont(overlayFont);
-			ImGui::Text("Pontyfik");
-			ImGui::Text("00:01:20");
-			ImGui::Text("50");
+			ImGui::Text("%s", currentBoss->bossName.c_str());
+			auto timestamp = currentBoss->GetElapsedTime();
+			ImGui::Text("%02d:%02d:%02d", timestamp.GetHours(), timestamp.GetMinutes(), timestamp.GetSeconds());
+			ImGui::Text("%d", currentBoss->deaths);
 			ImGui::PopFont();
 		}
 		ImGui::End();

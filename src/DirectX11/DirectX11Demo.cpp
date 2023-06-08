@@ -6,8 +6,11 @@
 #include <thread>
 #include "Roboto.h"
 #include "Garamond.h"
+#include "tahoma.h"
 #include "imgui_helpers.h"
+#include "imgui_notify.h"
 #include "Menu.h"
+#include "State.h"
 #include "../Directories/ImGui/imgui.h"
 #include "../Directories/ImGui/imgui_impl_dx11.h"
 #include "../Directories/ImGui/imgui_impl_win32.h"
@@ -90,11 +93,18 @@ BOOL WINAPI MJGetCursorPos(LPPOINT point)
 
 void SetupFonts()
 {
+	ImFontConfig font_cfg;
+	font_cfg.FontDataOwnedByAtlas = false;
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
-	Menu::overlayFont = io.Fonts->AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, 1, 20.f);
+	Menu::overlayFont = io.Fonts->AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, sizeof(Roboto_Bold_ttf), 20.f, &font_cfg);
+	ImGui::MergeIconsWithLatestFont(16.f, false);
 	io.FontDefault = Menu::overlayFont;
-	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, 1, 30.0f);
+	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, sizeof(EBGaramond_SemiBold_ttf), 30.0f, &font_cfg);
+	ImGui::MergeIconsWithLatestFont(16.f, false);
+
+	Menu::tahomaFont = io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 17.f, &font_cfg);
+	ImGui::MergeIconsWithLatestFont(16.f, false);
 }
 
 HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
@@ -147,6 +157,20 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 	if (ShowMenu == true) {
 		Menu::ShowMenu();
 	}
+
+	// imgui notifications
+	// Render toasts on top of everything, at the end of your code!
+	// You should push style vars here
+	ImGui::PushFont(Menu::tahomaFont);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.f); // Round borders
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(43.f / 255.f, 43.f / 255.f, 43.f / 255.f, 100.f / 255.f));
+	// Background color
+	ImGui::RenderNotifications(); // <-- Here we render all notifications
+	ImGui::PopStyleVar(1); // Don't forget to Pop()
+	ImGui::PopStyleColor(1);
+	ImGui::PopFont();
+
+
 	ImGui::EndFrame();
 	ImGui::Render();
 	DirectX11Interface::DeviceContext->OMSetRenderTargets(1, &DirectX11Interface::RenderTargetView, NULL);
@@ -300,9 +324,10 @@ DWORD WINAPI MainThread(LPVOID lpParameter) {
 			WindowFocus = true;
 		}
 	}
+	
+	// institate currentgame by presets
 
-	// AllocConsole();
-	// freopen("CONOUT$", "w", stdout);
+	State::currentGame = std::make_unique<Game>("Game");
 
 	bool InitHook = false;
 	while (InitHook == false) {
