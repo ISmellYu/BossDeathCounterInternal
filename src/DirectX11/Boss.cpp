@@ -15,7 +15,7 @@ bool Boss::StartBoss()
 {
 	if (startDate != NULL)
 		return false;
-	startDate = std::time(0);
+	startDate = std::time(nullptr);
 	state = Started;
 	return true;
 }
@@ -24,7 +24,7 @@ bool Boss::EndBoss()
 {
 	if (startDate == NULL || endDate != NULL)
 		return false;
-	endDate = std::time(0);
+	endDate = std::time(nullptr);
 	state = Dead;
 	return true;
 }
@@ -36,13 +36,13 @@ BossTimeStamp Boss::GetElapsedTime()
 
 	if (state == Dead)
 	{
-		return {(int)difftime(endDate, startDate)};
+		return {static_cast<int>(difftime(endDate, startDate))};
 	}
-		
+
 
 	if (state == Started)
 	{
-		return {(int)difftime(std::time(0), startDate)};
+		return {static_cast<int>(difftime(std::time(0), startDate))};
 	}
 
 
@@ -52,14 +52,9 @@ BossTimeStamp Boss::GetElapsedTime()
 
 	if (endDate == NULL)
 	{
-		return {(int)difftime(std::time(0), startDate)};
+		return {static_cast<int>(difftime(std::time(0), startDate))};
 	}
-		
+
 
 	return {};
 }
-
-
-
-
-

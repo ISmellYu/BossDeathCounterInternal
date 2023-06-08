@@ -159,8 +159,9 @@ namespace Menu
 
 
 		// Buttons
-		ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Start").x) - (ImGui::CalcTextSize("Pause").x));
-		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::RGBAtoIV4(0, 90, 0 , 0.5f));
+		ImGui::SetCursorPosX(
+			ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Start").x) - (ImGui::CalcTextSize("Pause").x));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::RGBAtoIV4(0, 90, 0, 0.5f));
 		if (ImGui::Button("Start", {70, 35}))
 		{
 			if (currentBoss->state == NotStarted)
@@ -171,7 +172,9 @@ namespace Menu
 				}
 				else
 				{
-					ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Something went wrong when tried to start the boss!"});
+					ImGui::InsertNotification({
+						ImGuiToastType_Error, 4000, "Something went wrong when tried to start the boss!"
+					});
 				}
 			}
 			else
@@ -202,15 +205,18 @@ namespace Menu
 				ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant end boss!"});
 			}
 		}
-			
+
 
 		ImGui::PopStyleColor();
 		ImGui::PopFont();
 
-		
+
 		if (showEndConfirmation)
 		{
-			if (ImGui::Begin("End confirm", &showEndConfirmation, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
+			if (ImGui::Begin("End confirm", &showEndConfirmation,
+			                 ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration |
+			                 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove |
+			                 ImGuiWindowFlags_NoSavedSettings))
 			{
 				ImGui::Text("Do you really want to end the boss fight?");
 				if (ImGui::Button("Yes"))
@@ -223,7 +229,9 @@ namespace Menu
 						}
 						else
 						{
-							ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Something went wrong when tried to end the boss!"});
+							ImGui::InsertNotification({
+								ImGuiToastType_Error, 4000, "Something went wrong when tried to end the boss!"
+							});
 						}
 					}
 					else
@@ -232,7 +240,7 @@ namespace Menu
 					}
 					showEndConfirmation = !showEndConfirmation;
 				}
-				
+
 				ImGui::SameLine();
 				if (ImGui::Button("No"))
 				{
@@ -241,18 +249,17 @@ namespace Menu
 			}
 			ImGui::End();
 		}
-		
 	}
 
 	void ShowMenu()
 	{
-		auto &x = ImGui::GetIO();
+		auto& x = ImGui::GetIO();
 		auto d = ImGui::GetMainViewport();
 		// ImGui::ShowDemoWindow();
 		ImGui::Begin("BossDeathCounter");
 		HandlePreviewValue();
 		ShowBossList();
-		
+
 
 		static bool showBossAdder = false;
 		if (ImGui::Button("Add boss"))
@@ -273,12 +280,11 @@ namespace Menu
 		ImGuiWindowFlags flags;
 		ImGui::SetWindowOverlayPos(0, &flags);
 
-		if (ImGui::Begin("##DEATHCOUNTER", 0, flags))
+		if (ImGui::Begin("##DEATHCOUNTER", nullptr, flags))
 		{
 			ImGui::PushFont(overlayFont);
 			ImGui::Text("%d", State::currentGame->deaths);
 			ImGui::PopFont();
-			
 		}
 		ImGui::End();
 	}
@@ -292,7 +298,7 @@ namespace Menu
 		ImGui::SetWindowOverlayPos(1, &flags);
 
 		// ImGui::SetNextWindowBgAlpha(0.0f); // Transparent background
-		if (ImGui::Begin("##BOSSINFO", 0, flags))
+		if (ImGui::Begin("##BOSSINFO", nullptr, flags))
 		{
 			ImGui::PushFont(overlayFont);
 			ImGui::Text("%s", currentBoss->bossName.c_str());
@@ -309,5 +315,4 @@ namespace Menu
 		ShowDeathCounter();
 		ShowBossInfo();
 	}
-
 }

@@ -44,7 +44,6 @@ void Game::RemoveBoss(const std::string& name)
 			return;
 		}
 	}
-	return;
 }
 
 void Game::IncrementDeaths()
@@ -68,8 +67,3 @@ bool Game::CheckIfExists(const std::string& name)
 	}
 	return false;
 }
-
-
-
-
-

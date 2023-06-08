@@ -18,7 +18,8 @@
 bool ShowMenu = false;
 bool ImGui_Initialised = false;
 
-namespace Process {
+namespace Process
+{
 	DWORD ID;
 	HANDLE Handle;
 	HWND Hwnd;
@@ -33,7 +34,8 @@ namespace Process {
 	bool IsExiting;
 }
 
-namespace DirectX11Interface {
+namespace DirectX11Interface
+{
 	ID3D11Device* Device;
 	ID3D11DeviceContext* DeviceContext;
 	ID3D11RenderTargetView* RenderTargetView;
@@ -42,9 +44,11 @@ namespace DirectX11Interface {
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	if (ShowMenu) {
-		
+
+LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (ShowMenu)
+	{
 		ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
 		return true;
 	}
@@ -58,7 +62,8 @@ HRESULT APIENTRY MJDIGetDeviceState(IDirectInputDevice8* pDInput8, DWORD cbData,
 	return oIDInputGetDeviceState(pDInput8, cbData, lpvData);
 }
 
-HRESULT APIENTRY MJDIGetDeviceData(IDirectInputDevice8* pDInput8, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
+HRESULT APIENTRY MJDIGetDeviceData(IDirectInputDevice8* pDInput8, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod,
+                                   LPDWORD pdwInOut, DWORD dwFlags)
 {
 	// std::cout << "blocking input!111\n";
 	// auto result = oIDInputGetDeviceData(pDInput8, cbObjectData, rgdod, pdwInOut, dwFlags);
@@ -97,23 +102,28 @@ void SetupFonts()
 	font_cfg.FontDataOwnedByAtlas = false;
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
-	Menu::overlayFont = io.Fonts->AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, sizeof(Roboto_Bold_ttf), 20.f, &font_cfg);
+	Menu::overlayFont = io.Fonts->
+	                       AddFontFromMemoryTTF((void*)Roboto_Bold_ttf, sizeof(Roboto_Bold_ttf), 20.f, &font_cfg);
 	ImGui::MergeIconsWithLatestFont(16.f, false);
 	io.FontDefault = Menu::overlayFont;
-	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, sizeof(EBGaramond_SemiBold_ttf), 30.0f, &font_cfg);
+	Menu::customFont = io.Fonts->AddFontFromMemoryTTF((void*)EBGaramond_SemiBold_ttf, sizeof(EBGaramond_SemiBold_ttf),
+	                                                  30.0f, &font_cfg);
 	ImGui::MergeIconsWithLatestFont(16.f, false);
 
 	Menu::tahomaFont = io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 17.f, &font_cfg);
 	ImGui::MergeIconsWithLatestFont(16.f, false);
 }
 
-HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
-		
-	if (!ImGui_Initialised) {
-		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)&DirectX11Interface::Device))){
+HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+{
+	if (!ImGui_Initialised)
+	{
+		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)&DirectX11Interface::Device)))
+		{
 			ImGui::CreateContext();
 
-			ImGuiIO& io = ImGui::GetIO(); (void)io;
+			ImGuiIO& io = ImGui::GetIO();
+			(void)io;
 			ImGui::GetIO().WantCaptureMouse || ImGui::GetIO().WantTextInput || ImGui::GetIO().WantCaptureKeyboard;
 			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
@@ -125,7 +135,8 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 
 			ID3D11Texture2D* BackBuffer;
 			pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer);
-			DirectX11Interface::Device->CreateRenderTargetView(BackBuffer, NULL, &DirectX11Interface::RenderTargetView);
+			DirectX11Interface::Device->CreateRenderTargetView(BackBuffer, nullptr,
+			                                                   &DirectX11Interface::RenderTargetView);
 			BackBuffer->Release();
 
 			ImGui_ImplWin32_Init(WindowHwnd);
@@ -135,26 +146,26 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 
 			ImGui_ImplDX11_CreateDeviceObjects();
 			ImGui::GetIO().ImeWindowHandle = Process::Hwnd;
-			Process::WndProc = (WNDPROC)SetWindowLongPtr(Process::Hwnd, GWLP_WNDPROC, (__int3264)(LONG_PTR)WndProc);
+			Process::WndProc = (WNDPROC)SetWindowLongPtr(Process::Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 			ImGui_Initialised = true;
 		}
 	}
 	if (GetAsyncKeyState(VK_INSERT) & 1) ShowMenu = !ShowMenu;
 
 
-
 	ImGui_ImplDX11_NewFrame();
-	
+
 	ImGui_ImplWin32_NewFrame();
-	
-	
+
+
 	ImGui::NewFrame();
 	// ImGui::StyleColorsDark();
 	ImGui::SetupImGuiStyle(true, 1.f);
 	Menu::ShowOverlay();
 
 	ImGui::GetIO().MouseDrawCursor = ShowMenu;
-	if (ShowMenu == true) {
+	if (ShowMenu == true)
+	{
 		Menu::ShowMenu();
 	}
 
@@ -173,19 +184,20 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 
 	ImGui::EndFrame();
 	ImGui::Render();
-	DirectX11Interface::DeviceContext->OMSetRenderTargets(1, &DirectX11Interface::RenderTargetView, NULL);
+	DirectX11Interface::DeviceContext->OMSetRenderTargets(1, &DirectX11Interface::RenderTargetView, nullptr);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	return oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
 }
 
-void APIENTRY MJDrawIndexed(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation) {
-
+void APIENTRY MJDrawIndexed(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation,
+                            INT BaseVertexLocation)
+{
 }
 
 void ReleaseAllAndRestore()
 {
 	Process::IsExiting = true;
-	SetWindowLongPtr(Process::Hwnd, GWLP_WNDPROC, (__int3264)(LONG_PTR)Process::WndProc);
+	SetWindowLongPtr(Process::Hwnd, GWLP_WNDPROC, (LONG_PTR)Process::WndProc);
 	MH_Uninitialize();
 	DisableAll();
 	DeleteWindow();
@@ -209,14 +221,15 @@ uintptr_t GetFunctionAddr(uintptr_t vTable, int index)
 bool HookDInput()
 {
 	IDirectInput8* pDirectInput = nullptr;
-	if (DirectInput8Create(Process::Module, DIRECTINPUT_VERSION, IID_IDirectInput8, (LPVOID*)&pDirectInput, NULL) != DI_OK)
+	if (DirectInput8Create(Process::Module, DIRECTINPUT_VERSION, IID_IDirectInput8, (LPVOID*)&pDirectInput,
+	                       nullptr) != DI_OK)
 	{
 		return false;
 	}
 
 	LPDIRECTINPUTDEVICE8 lpdiMouse;
 
-	if (pDirectInput->CreateDevice(GUID_SysMouse, &lpdiMouse, NULL) != DI_OK)
+	if (pDirectInput->CreateDevice(GUID_SysMouse, &lpdiMouse, nullptr) != DI_OK)
 	{
 		pDirectInput->Release();
 		return false;
@@ -233,7 +246,7 @@ bool HookDInput()
 		std::cout << "Create hook not working xdd\n";
 		return false;
 	}
-	
+
 	if (MH_EnableHook((void*)addrFunDeviceState) != MH_OK)
 	{
 		std::cout << "Not enabled hook idk why xdd\n";
@@ -241,16 +254,15 @@ bool HookDInput()
 	}
 
 
-
 	uintptr_t addrFunDeviceData = GetFunctionAddr(vTable, 10);
 	std::cout << "Function addr: " << std::hex << addrFunDeviceData << "\n";
-	
+
 	if (MH_CreateHook((void*)addrFunDeviceData, MJDIGetDeviceData, (void**)&oIDInputGetDeviceData) != MH_OK)
 	{
 		std::cout << "Create hook not working xdd\n";
 		return false;
 	}
-	
+
 	if (MH_EnableHook((void*)addrFunDeviceData) != MH_OK)
 	{
 		std::cout << "Not enabled hook idk why xdd\n";
@@ -263,7 +275,6 @@ bool HookDInput()
 
 bool HookCursor()
 {
-
 	if (MH_CreateHook(SetCursorPos, MJSetCursorPos, (void**)&oISetCursorPos))
 	{
 		std::cout << "Create hook on set cursor pos not working!\n";
@@ -290,14 +301,16 @@ bool HookCursor()
 	return true;
 }
 
-DWORD WINAPI MainThread(LPVOID lpParameter) {
-	
+DWORD WINAPI MainThread(LPVOID lpParameter)
+{
 	bool WindowFocus = false;
-	while (WindowFocus == false) {
-		auto xd = GetModuleHandleA(NULL);
+	while (WindowFocus == false)
+	{
+		auto xd = GetModuleHandleA(nullptr);
 		DWORD ForegroundWindowProcessID;
 		GetWindowThreadProcessId(GetForegroundWindow(), &ForegroundWindowProcessID);
-		if (GetCurrentProcessId() == ForegroundWindowProcessID) {
+		if (GetCurrentProcessId() == ForegroundWindowProcessID)
+		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 			Process::ID = GetCurrentProcessId();
@@ -318,20 +331,22 @@ DWORD WINAPI MainThread(LPVOID lpParameter) {
 			Process::ClassName = TempClassName;
 
 			char TempPath[MAX_PATH];
-			GetModuleFileNameEx(Process::Handle, NULL, TempPath, sizeof(TempPath));
+			GetModuleFileNameEx(Process::Handle, nullptr, TempPath, sizeof(TempPath));
 			Process::Path = TempPath;
 
 			WindowFocus = true;
 		}
 	}
-	
+
 	// institate currentgame by presets
 
 	State::currentGame = std::make_unique<Game>("Game");
 
 	bool InitHook = false;
-	while (InitHook == false) {
-		if (DirectX11::Init() == true) {
+	while (InitHook == false)
+	{
+		if (DirectX11::Init() == true)
+		{
 			CreateHook(8, (void**)&oIDXGISwapChainPresent, MJPresent);
 			CreateHook(12, (void**)&oID3D11DrawIndexed, MJDrawIndexed);
 
@@ -357,13 +372,16 @@ DWORD WINAPI MainThread(LPVOID lpParameter) {
 	FreeLibraryAndExitThread(Process::Module, 0);
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
-	switch (dwReason) {
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
+{
+	switch (dwReason)
+	{
 	case DLL_PROCESS_ATTACH:
 		DisableThreadLibraryCalls(hModule);
-		if (ChecktDirectXVersion(DirectXVersion.D3D11) == true) {
+		if (ChecktDirectXVersion(DirectXVersion.D3D11) == true)
+		{
 			Process::Module = hModule;
-			CreateThread(0, 0, MainThread, 0, 0, 0);
+			CreateThread(nullptr, 0, MainThread, nullptr, 0, nullptr);
 		}
 		break;
 	case DLL_PROCESS_DETACH:

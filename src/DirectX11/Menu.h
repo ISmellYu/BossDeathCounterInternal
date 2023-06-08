@@ -6,9 +6,9 @@
 
 namespace Menu
 {
-	inline ImFont* overlayFont = NULL;
-	inline ImFont* customFont = NULL;
-	inline ImFont* tahomaFont = NULL;
+	inline ImFont* overlayFont = nullptr;
+	inline ImFont* customFont = nullptr;
+	inline ImFont* tahomaFont = nullptr;
 	void ShowMenu();
 	void ShowOverlay();
 }

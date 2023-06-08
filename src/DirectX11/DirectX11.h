@@ -2,26 +2,31 @@
 #include <dxgi.h>
 #include <d3d11.h>
 
-namespace DirectX11 {
-	bool Init() {
-		if (InitWindow() == false) {
+namespace DirectX11
+{
+	bool Init()
+	{
+		if (InitWindow() == false)
+		{
 			return false;
 		}
 
 		HMODULE D3D11Module = GetModuleHandle("d3d11.dll");
-		if (D3D11Module == NULL) {
+		if (D3D11Module == nullptr)
+		{
 			DeleteWindow();
 			return false;
 		}
 
 		void* D3D11CreateDeviceAndSwapChain = GetProcAddress(D3D11Module, "D3D11CreateDeviceAndSwapChain");
-		if (D3D11CreateDeviceAndSwapChain == NULL) {
+		if (D3D11CreateDeviceAndSwapChain == nullptr)
+		{
 			DeleteWindow();
 			return false;
 		}
 
 		D3D_FEATURE_LEVEL FeatureLevel;
-		const D3D_FEATURE_LEVEL FeatureLevels[] = { D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_11_0 };
+		const D3D_FEATURE_LEVEL FeatureLevels[] = {D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_11_0};
 
 		DXGI_RATIONAL RefreshRate;
 		RefreshRate.Numerator = 60;
@@ -53,7 +58,7 @@ namespace DirectX11 {
 		ID3D11Device* Device;
 		ID3D11DeviceContext* Context;
 
-		if (((long(__stdcall*)(
+		if (static_cast<long(__stdcall*)(
 			IDXGIAdapter*,
 			D3D_DRIVER_TYPE,
 			HMODULE,
@@ -65,24 +70,26 @@ namespace DirectX11 {
 			IDXGISwapChain**,
 			ID3D11Device**,
 			D3D_FEATURE_LEVEL*,
-			ID3D11DeviceContext**))(D3D11CreateDeviceAndSwapChain))(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, FeatureLevels, 1, D3D11_SDK_VERSION, &SwapChainDesc, &SwapChain, &Device, &FeatureLevel, &Context) < 0)
+			ID3D11DeviceContext**)>(D3D11CreateDeviceAndSwapChain)(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
+			                                                       FeatureLevels, 1, D3D11_SDK_VERSION, &SwapChainDesc,
+			                                                       &SwapChain, &Device, &FeatureLevel, &Context) < 0)
 		{
 			DeleteWindow();
 			return false;
 		}
 
-		MethodsTable = (uintx_t*)::calloc(205, sizeof(uintx_t));
+		MethodsTable = static_cast<uintx_t*>(::calloc(205, sizeof(uintx_t)));
 		memcpy(MethodsTable, *(uintx_t**)SwapChain, 18 * sizeof(uintx_t));
 		memcpy(MethodsTable + 18, *(uintx_t**)Device, 43 * sizeof(uintx_t));
 		memcpy(MethodsTable + 18 + 43, *(uintx_t**)Context, 144 * sizeof(uintx_t));
 
 		MH_Initialize();
 		SwapChain->Release();
-		SwapChain = NULL;
+		SwapChain = nullptr;
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 		Context->Release();
-		Context = NULL;
+		Context = nullptr;
 		DeleteWindow();
 		return true;
 	}

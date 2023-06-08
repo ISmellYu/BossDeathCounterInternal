@@ -5,22 +5,24 @@
 #pragma comment(lib, "Dinput8.lib")
 #pragma comment(lib, "Dxguid.lib")
 
-typedef HRESULT(APIENTRY* IDXGISwapChainPresent)(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
+using IDXGISwapChainPresent = HRESULT(APIENTRY*)(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 IDXGISwapChainPresent oIDXGISwapChainPresent;
 
-typedef void(APIENTRY* ID3D11DrawIndexed)(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+using ID3D11DrawIndexed = void(APIENTRY*)(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation,
+                                          INT BaseVertexLocation);
 ID3D11DrawIndexed oID3D11DrawIndexed;
 
-typedef HRESULT(APIENTRY* IDInputGetDeviceState)(IDirectInputDevice8* pDInput8, DWORD cbData, LPVOID lpvData);
+using IDInputGetDeviceState = HRESULT(APIENTRY*)(IDirectInputDevice8* pDInput8, DWORD cbData, LPVOID lpvData);
 IDInputGetDeviceState oIDInputGetDeviceState;
 
-typedef HRESULT(APIENTRY* IDInputGetDeviceData)(IDirectInputDevice8* pDInput8, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags);
+using IDInputGetDeviceData = HRESULT(APIENTRY*)(IDirectInputDevice8* pDInput8, DWORD cbObjectData,
+                                                LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags);
 IDInputGetDeviceData oIDInputGetDeviceData;
 
-typedef BOOL(WINAPI* ISetCursorPos)(int x, int y);
+using ISetCursorPos = BOOL(WINAPI*)(int x, int y);
 ISetCursorPos oISetCursorPos;
 
-typedef BOOL(WINAPI* IGetCursorPos)(LPPOINT point);
+using IGetCursorPos = BOOL(WINAPI*)(LPPOINT point);
 IGetCursorPos oIGetCursorPos;
 //D3D11 Methods Table:
 //[0] QueryInterface
