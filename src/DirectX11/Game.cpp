@@ -10,6 +10,12 @@ Game::Game(std::string name)
 
 void Game::SetCurrentBoss(const std::string& name)
 {
+	if (currentBoss != nullptr)
+	{
+		if (currentBoss->state == Started)
+			PauseCurrentBoss();
+	}
+
 	for (const auto& boss : bosses)
 	{
 		if (boss->bossName == name)
@@ -46,6 +52,21 @@ void Game::RemoveBoss(const std::string& name)
 	}
 }
 
+bool Game::AddBoss(std::string name)
+{
+	for (auto& boss : bosses)
+	{
+		if (boss->bossName == name)
+			return false;
+	}
+
+	auto boss = std::make_shared<Boss>(std::move(name));
+	bosses.emplace_back(std::move(boss));
+
+	return true;
+}
+
+
 void Game::IncrementDeaths()
 {
 	if (currentBoss != nullptr)
@@ -67,3 +88,19 @@ bool Game::CheckIfExists(const std::string& name)
 	}
 	return false;
 }
+
+bool Game::PauseCurrentBoss()
+{
+	if (currentBoss == nullptr)
+		return false;
+	return currentBoss->PauseBoss();
+}
+
+bool Game::ResumeCurrentBoss()
+{
+	if (currentBoss == nullptr)
+		return false;
+	return currentBoss->ResumeBoss();
+}
+
+

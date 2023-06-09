@@ -1,7 +1,10 @@
 #pragma once
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "BossTimeStamp.h"
+#include "Pause.h"
 
 enum BossState
 {
@@ -21,9 +24,12 @@ public:
 	time_t endDate = NULL;
 	BossState state;
 	int deaths{};
+	std::vector<std::shared_ptr<Pause>> pauses{};
 
 	bool StartBoss();
 	bool EndBoss();
 	BossTimeStamp GetElapsedTime();
+	bool PauseBoss();
+	bool ResumeBoss();
 	explicit Boss(std::string name);
 };

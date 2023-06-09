@@ -45,6 +45,7 @@
     <ClInclude Include="imgui_helpers.h" />
     <ClInclude Include="imgui_notify.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="tahoma.h" />
   </ItemGroup>
@@ -66,6 +67,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="garamond.h" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="roboto.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

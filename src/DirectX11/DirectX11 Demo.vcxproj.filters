@@ -19,9 +19,6 @@
     <Filter Include="Main">
       <UniqueIdentifier>{3305df39-fac0-49a0-b213-72e12b16c28a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\Objects">
-      <UniqueIdentifier>{cfa6c5de-f681-4b86-b386-6c373a25e9a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Menu">
       <UniqueIdentifier>{1f5a59a4-bd0e-4c49-9a81-e5143e697a45}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,9 @@
     </Filter>
     <Filter Include="State">
       <UniqueIdentifier>{051cb08b-7701-4e36-abb1-e9f32602cb7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{cfa6c5de-f681-4b86-b386-6c373a25e9a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,10 +88,10 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
-      <Filter>Main\Objects</Filter>
+      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Main\Objects</Filter>
+      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Menu</Filter>
@@ -115,7 +115,10 @@
       <Filter>Fonts</Filter>
     </ClInclude>
     <ClInclude Include="BossTimeStamp.h">
-      <Filter>Main\Objects</Filter>
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,10 +171,13 @@
       <Filter>Fonts</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
-      <Filter>Main\Objects</Filter>
+      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Main\Objects</Filter>
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

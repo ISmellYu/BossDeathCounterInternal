@@ -71,8 +71,18 @@ namespace Menu
 				{
 					if (bossName[0] != '\0')
 					{
-						State::currentGame->bosses.emplace_back(std::make_shared<Boss>(bossName));
-						ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss added!"});
+						if (State::currentGame->AddBoss(bossName))
+						{
+							ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss added!"});
+						}
+						else
+						{
+							ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Boss with that name already exists!"});
+						}
+					}
+					else
+					{
+						ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Insert name for the boss!"});
 					}
 				}
 				// ImGui::End();
@@ -187,7 +197,43 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::PushStyleColor(ImGuiCol_Button, {255, 255, 0, 0.5f});
-		ImGui::Button("Pause", {70, 35});
+		static std::string pauseString = "Pause";
+
+		if (currentBoss->state == Paused)
+			pauseString = "Resume";
+		else
+			pauseString = "Pause";
+
+		if (ImGui::Button(pauseString.c_str(), {70, 35}))
+		{
+			if (currentBoss->state == Started)
+			{
+				if (currentBoss->PauseBoss())
+				{
+					ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss paused"});
+				}
+				else
+				{
+					ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant pause boss!"});
+				}
+			}
+			else if (currentBoss->state == Paused)
+			{
+				if (currentBoss->ResumeBoss())
+				{
+					ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss resumed"});
+				}
+				else
+				{
+					ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant resume boss!"});
+				}
+			}
+			else
+			{
+				ImGui::InsertNotification({ImGuiToastType_Error, 4000, "Cant pause boss because of its state!"});
+			}
+				
+		}
 		ImGui::PopStyleColor();
 
 		ImGui::SameLine();

@@ -18,6 +18,6 @@ struct BossTimeStamp
 	{
 		int minutes = GetMinutes();
 		int hours = GetHours();
-		return time_s - (minutes * 60) - (hours * 3600);
+		return time_s - minutes * 60 - hours * 3600;
 	}
 };

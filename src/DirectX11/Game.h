@@ -19,9 +19,15 @@ public:
 	void SetCurrentBoss(const std::string& name);
 	void EndCurrentBoss();
 
+	bool AddBoss(const std::string name);
 	void RemoveBoss(const std::string& name);
 
 	void IncrementDeaths();
 
 	bool CheckIfExists(const std::string& name);
+
+	bool PauseCurrentBoss();
+	bool ResumeCurrentBoss();
+
+
 };
