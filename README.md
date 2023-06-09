@@ -7,8 +7,8 @@ Shows overlay in corners of the game that displays current deaths and current bo
 # :warning: Warning
 🔴**PROGRAM DOESNT CHANGE ANY VALUES INSIDE THE GAME!(stats etc.)**🔴\
 🔴**BUT U COULD BE BANNED IF GAME THAT U ARE USING THIS PROGRAM WITH IS HAVING AN ANTICHEAT!**🔴\
-🔴**DISABLE ANY ANTICHEATS BEFORE INJECTING**🔴
-
+🔴**DISABLE ANY ANTICHEATS BEFORE INJECTING**🔴\
+🔴**I DO NOT TAKE RESPONSIBILITY FOR ANY BANS**🔴
 # Run
 
 
