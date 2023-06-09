@@ -4,9 +4,17 @@ Program to easily keep track of deaths in various games, including adding bosses
 Shows overlay in corners of the game that displays current deaths and current boss
 
 
+# :warning: Warning
+🔴**PROGRAM DOESNT CHANGE ANY VALUES INSIDE THE GAME!(stats etc.)**🔴\
+🔴**BUT U COULD BE BANNED IF GAME THAT U ARE USING THIS PROGRAM WITH IS HAVING AN ANTICHEAT!**🔴\
+🔴**DISABLE ANY ANTICHEATS BEFORE INJECTING**🔴
+
 # Run
 
-Inject `BossDeathCounterInternalDX11x64.dll`(64bit) or `BossDeathCounterInternalDX11x86.dll`(32bit) using any injector supporting LoadLibrary(unload functionality) into desired game
+
+
+
+Inject `BossDeathCounterInternalDX11x64.dll`(64bit) or `BossDeathCounterInternalDX11x86.dll`(32bit) using any injector supporting LoadLibrary(unload functionality) into desired game\
 
 
 # Usage
