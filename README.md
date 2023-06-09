@@ -22,6 +22,9 @@ If u cant inject dll make sure that dll u are using is the same architecture as 
 Inject `BossDeathCounterInternalDX11x64.dll` dll if game is 64-bit\
 Inject `BossDeathCounterInternalDX11x86.dll` dll if game is 32-bit
 
+# Images
+![alt text](https://i.ibb.co/qs4xbYP/obraz-2023-06-09-050648912.png)
+
 # Sources
 * [Source](https://www.unknowncheats.me/forum/d3d-tutorials-and-source/457178-imgui-hook-directx12-directx11-directx9-x64-x86.html) - Based on this source
 * [ImGui](https://github.com/ocornut/imgui) - Gui Library
