@@ -31,3 +31,4 @@ Inject `BossDeathCounterInternalDX11x86.dll` dll if game is 32-bit
 * [ImGui-Notify](https://github.com/patrickcjk/imgui-notify) - Imgui notficications
 * [Kiero](https://github.com/Rebzzel/kiero) - Graphics hooking
 * [MinHook](https://github.com/TsudaKageyu/minhook) - Library hooking
+* [Test Program](https://github.com/kevinmoran/BeginnerDirect3D11) - DirectX tuturial used to test program
