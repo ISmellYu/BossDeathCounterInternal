@@ -41,18 +41,41 @@ namespace Menu
 		}
 
 		ImGui::SameLine();
+		static bool showRemoveConfirm = false;
 		if (ImGui::Button("Remove", ImVec2(70, 26)))
 		{
 			if (!State::currentGame->bosses.empty())
 			{
-				// make sure that
-				State::currentGame->RemoveBoss(State::currentGame->bosses[current_item_index]->bossName);
-				ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss removed!"});
-				if (State::currentGame->bosses.size() == current_item_index)
+				showRemoveConfirm = !showRemoveConfirm;
+			}
+		}
+
+		if (showRemoveConfirm)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			ImGui::SetNextWindowPos({io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f}, ImGuiCond_Always, {0.5f, 0.5f});
+			if (ImGui::Begin("Remove confirm", &showRemoveConfirm, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration |
+			                 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove |
+			                 ImGuiWindowFlags_NoSavedSettings))
+			{
+				ImGui::Text("Do you really want to remove boss: \"%s\"", State::currentGame->bosses[current_item_index]->bossName.c_str());
+				if (ImGui::Button("Yes"))
 				{
-					current_item_index--;
+					State::currentGame->RemoveBoss(State::currentGame->bosses[current_item_index]->bossName);
+					ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss removed!"});
+					if (State::currentGame->bosses.size() == current_item_index)
+					{
+						current_item_index--;
+					}
+					showRemoveConfirm = !showRemoveConfirm;
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("No"))
+				{
+					showRemoveConfirm = !showRemoveConfirm;
 				}
 			}
+			ImGui::End();
 		}
 	}
 
@@ -172,7 +195,7 @@ namespace Menu
 		ImGui::SetCursorPosX(
 			ImGui::GetWindowSize().x / 2 - (ImGui::CalcTextSize("Start").x) - (ImGui::CalcTextSize("Pause").x));
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::RGBAtoIV4(0, 90, 0, 0.5f));
-		if (ImGui::Button("Start", {70, 35}))
+		if (ImGui::Button("Start", {80, 35}))
 		{
 			if (currentBoss->state == NotStarted)
 			{
@@ -204,7 +227,7 @@ namespace Menu
 		else
 			pauseString = "Pause";
 
-		if (ImGui::Button(pauseString.c_str(), {70, 35}))
+		if (ImGui::Button(pauseString.c_str(), {80, 35}))
 		{
 			if (currentBoss->state == Started)
 			{
@@ -240,7 +263,7 @@ namespace Menu
 
 		ImGui::PushStyleColor(ImGuiCol_Button, {255, 0, 0, 0.5f});
 		static bool showEndConfirmation = false;
-		if (ImGui::Button("End", {70, 35}))
+		if (ImGui::Button("End", {80, 35}))
 		{
 			if (currentBoss->state == Paused || currentBoss->state == Started)
 			{
@@ -259,6 +282,8 @@ namespace Menu
 
 		if (showEndConfirmation)
 		{
+			ImGuiIO& io = ImGui::GetIO();
+			ImGui::SetNextWindowPos({io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f}, ImGuiCond_Always, {0.5f, 0.5f});
 			if (ImGui::Begin("End confirm", &showEndConfirmation,
 			                 ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration |
 			                 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove |
@@ -302,7 +327,7 @@ namespace Menu
 		auto& x = ImGui::GetIO();
 		auto d = ImGui::GetMainViewport();
 		// ImGui::ShowDemoWindow();
-		ImGui::Begin("BossDeathCounter");
+		ImGui::Begin("BossDeathCounter", NULL, ImGuiWindowFlags_NoBringToFrontOnFocus);
 		HandlePreviewValue();
 		ShowBossList();
 
@@ -338,7 +363,7 @@ namespace Menu
 	void ShowBossInfo()
 	{
 		std::shared_ptr<Boss> currentBoss = State::currentGame->currentBoss;
-		if (currentBoss == nullptr)
+		if (currentBoss == nullptr || currentBoss->state == Dead)
 			return;
 		ImGuiWindowFlags flags;
 		ImGui::SetWindowOverlayPos(1, &flags);
