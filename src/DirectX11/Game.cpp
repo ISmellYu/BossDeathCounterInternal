@@ -66,14 +66,22 @@ bool Game::AddBoss(std::string name)
 	return true;
 }
 
-
 void Game::IncrementDeaths()
 {
 	if (currentBoss != nullptr)
 		currentBoss->deaths++;
-
 	deaths++;
 }
+
+void Game::DecrementDeaths()
+{
+	if (currentBoss != nullptr && currentBoss->deaths <= 0)
+		currentBoss->deaths--;
+	if (deaths <= 0)
+		return;
+	deaths--;
+}
+
 
 bool Game::CheckIfExists(const std::string& name)
 {

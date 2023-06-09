@@ -1,5 +1,5 @@
 #include "DirectX11.h"
-#include "DirectX11Demo.h"
+#include "dllmain.h"
 
 #include <cstdio>
 #include <iostream>
@@ -165,9 +165,7 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 
 	ImGui::GetIO().MouseDrawCursor = ShowMenu;
 	if (ShowMenu == true)
-	{
 		Menu::ShowMenu();
-	}
 
 	// imgui notifications
 	// Render toasts on top of everything, at the end of your code!
@@ -184,6 +182,20 @@ HRESULT APIENTRY MJPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT F
 
 	ImGui::EndFrame();
 	ImGui::Render();
+
+
+	// increment by 1 death counter
+	if ((GetAsyncKeyState(VK_F2) & 1))
+	{
+		State::currentGame->IncrementDeaths();
+	}
+
+	// increment by 1 death counter
+	if ((GetAsyncKeyState(VK_F9) & 1))
+	{
+		State::currentGame->DecrementDeaths();
+	}
+
 	DirectX11Interface::DeviceContext->OMSetRenderTargets(1, &DirectX11Interface::RenderTargetView, nullptr);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	return oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
@@ -338,7 +350,7 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 		}
 	}
 
-	// institate currentgame by presets
+	// initialize currentgame by presets
 
 	State::currentGame = std::make_unique<Game>("Game");
 

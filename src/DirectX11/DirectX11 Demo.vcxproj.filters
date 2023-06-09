@@ -13,9 +13,6 @@
     <Filter Include="DirectX Hook\MinHook\hde">
       <UniqueIdentifier>{6d1553c4-e7d3-4dbb-9957-9cbeddb4a71e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Demo Source">
-      <UniqueIdentifier>{8828bc04-0c2a-43c9-af5d-28e29f26ff42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{3305df39-fac0-49a0-b213-72e12b16c28a}</UniqueIdentifier>
     </Filter>
@@ -56,9 +53,6 @@
     </ClInclude>
     <ClInclude Include="..\Directories\MinHook\Src\hde\table64.h">
       <Filter>DirectX Hook\MinHook\hde</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11Demo.h">
-      <Filter>Demo Source</Filter>
     </ClInclude>
     <ClInclude Include="..\Global.h">
       <Filter>DirectX Hook</Filter>
@@ -120,6 +114,9 @@
     <ClInclude Include="Pause.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="dllmain.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Directories\MinHook\Src\buffer.c">
@@ -136,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="..\Directories\MinHook\Src\hde\hde64.c">
       <Filter>DirectX Hook\MinHook\hde</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX11Demo.cpp">
-      <Filter>Demo Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Directories\ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -178,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="Pause.cpp">
       <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

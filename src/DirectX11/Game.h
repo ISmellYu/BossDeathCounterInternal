@@ -23,6 +23,7 @@ public:
 	void RemoveBoss(const std::string& name);
 
 	void IncrementDeaths();
+	void DecrementDeaths();
 
 	bool CheckIfExists(const std::string& name);
 

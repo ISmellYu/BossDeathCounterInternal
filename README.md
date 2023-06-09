@@ -20,7 +20,7 @@ Use menu to operate on program
 # Problems
 If u cant inject dll make sure that dll u are using is the same architecture as the game\
 Inject `BossDeathCounterInternalDX11x64.dll` dll if game is 64-bit\
-Inject `BossDeathCounterInternalDX11x86.dll` dll if game is 32-bit\
+Inject `BossDeathCounterInternalDX11x86.dll` dll if game is 32-bit
 
 
 
