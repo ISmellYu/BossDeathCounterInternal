@@ -1,12 +1,15 @@
-#include "../Global.h"
+#pragma once
+
 #include <dxgi.h>
 #include <d3d11.h>
 
+#include "Global.h"
+
 namespace DirectX11
 {
-	bool Init()
+	inline bool Init()
 	{
-		if (InitWindow() == false)
+		if (Global::InitWindow() == false)
 		{
 			return false;
 		}
@@ -14,14 +17,14 @@ namespace DirectX11
 		HMODULE D3D11Module = GetModuleHandle("d3d11.dll");
 		if (D3D11Module == nullptr)
 		{
-			DeleteWindow();
+			Global::DeleteWindow();
 			return false;
 		}
 
 		void* D3D11CreateDeviceAndSwapChain = GetProcAddress(D3D11Module, "D3D11CreateDeviceAndSwapChain");
 		if (D3D11CreateDeviceAndSwapChain == nullptr)
 		{
-			DeleteWindow();
+			Global::DeleteWindow();
 			return false;
 		}
 
@@ -49,7 +52,7 @@ namespace DirectX11
 		SwapChainDesc.SampleDesc = SampleDesc;
 		SwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		SwapChainDesc.BufferCount = 1;
-		SwapChainDesc.OutputWindow = WindowHwnd;
+		SwapChainDesc.OutputWindow = Global::WindowHwnd;
 		SwapChainDesc.Windowed = 1;
 		SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 		SwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -74,14 +77,14 @@ namespace DirectX11
 			                                                       FeatureLevels, 1, D3D11_SDK_VERSION, &SwapChainDesc,
 			                                                       &SwapChain, &Device, &FeatureLevel, &Context) < 0)
 		{
-			DeleteWindow();
+			Global::DeleteWindow();
 			return false;
 		}
 
-		MethodsTable = static_cast<uintx_t*>(::calloc(205, sizeof(uintx_t)));
-		memcpy(MethodsTable, *(uintx_t**)SwapChain, 18 * sizeof(uintx_t));
-		memcpy(MethodsTable + 18, *(uintx_t**)Device, 43 * sizeof(uintx_t));
-		memcpy(MethodsTable + 18 + 43, *(uintx_t**)Context, 144 * sizeof(uintx_t));
+		Global::MethodsTable = static_cast<uintx_t*>(::calloc(205, sizeof(uintx_t)));
+		memcpy(Global::MethodsTable, *(uintx_t**)SwapChain, 18 * sizeof(uintx_t));
+		memcpy(Global::MethodsTable + 18, *(uintx_t**)Device, 43 * sizeof(uintx_t));
+		memcpy(Global::MethodsTable + 18 + 43, *(uintx_t**)Context, 144 * sizeof(uintx_t));
 
 		MH_Initialize();
 		SwapChain->Release();
@@ -90,7 +93,7 @@ namespace DirectX11
 		Device = nullptr;
 		Context->Release();
 		Context = nullptr;
-		DeleteWindow();
+		Global::DeleteWindow();
 		return true;
 	}
 }

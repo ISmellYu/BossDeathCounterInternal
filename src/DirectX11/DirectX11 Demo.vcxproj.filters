@@ -28,6 +28,21 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{cfa6c5de-f681-4b86-b386-6c373a25e9a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Specific">
+      <UniqueIdentifier>{37a03971-5edd-455a-815b-c17e31b74d62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base hooks">
+      <UniqueIdentifier>{faaa7ca3-293c-4b88-b896-13e2770a682b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Offsets">
+      <UniqueIdentifier>{3cc465b4-690b-42f6-bf87-b70319e5f6b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5bccba34-87d7-433f-9bca-fb9b60da38f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{0dc70f2e-8089-497a-8248-6dcd0a61ba9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX11.h">
@@ -53,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="..\Directories\MinHook\Src\hde\table64.h">
       <Filter>DirectX Hook\MinHook\hde</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Global.h">
-      <Filter>DirectX Hook</Filter>
     </ClInclude>
     <ClInclude Include="..\Directories\ImGui\imconfig.h">
       <Filter>ImGui</Filter>
@@ -117,6 +129,33 @@
     <ClInclude Include="dllmain.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="DarkSouls3.h">
+      <Filter>Game Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionDefinitions.h">
+      <Filter>Base hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="Fonts.h">
+      <Filter>Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpecific.h">
+      <Filter>Game Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFunctionDefinitions.h">
+      <Filter>Game Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Interface.h">
+      <Filter>Base hooks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Directories\MinHook\Src\buffer.c">
@@ -175,6 +214,21 @@
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementHooks.h">
+      <Filter>Base hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsHook.h">
+      <Filter>Base hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsHook.cpp">
+      <Filter>Base hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementHooks.cpp">
+      <Filter>Base hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkSouls3.cpp">
+      <Filter>Game Specific</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

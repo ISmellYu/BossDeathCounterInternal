@@ -34,18 +34,26 @@
     <ClInclude Include="..\Directories\MinHook\Src\hde\table32.h" />
     <ClInclude Include="..\Directories\MinHook\Src\hde\table64.h" />
     <ClInclude Include="..\Directories\MinHook\Src\trampoline.h" />
-    <ClInclude Include="..\Global.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossTimeStamp.h" />
+    <ClInclude Include="DarkSouls3.h" />
     <ClInclude Include="DirectX11.h" />
+    <ClInclude Include="DirectX11Interface.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="fa_solid_900.h" />
+    <ClInclude Include="Fonts.h" />
     <ClInclude Include="font_awesome_5.h" />
+    <ClInclude Include="FunctionDefinitions.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameFunctionDefinitions.h" />
+    <ClInclude Include="GameSpecific.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="imgui_helpers.h" />
     <ClInclude Include="imgui_notify.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Offsets.h" />
     <ClInclude Include="Pause.h" />
+    <ClInclude Include="Process.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="tahoma.h" />
   </ItemGroup>
@@ -63,10 +71,15 @@
     <ClCompile Include="..\Directories\MinHook\Src\hook.c" />
     <ClCompile Include="..\Directories\MinHook\Src\trampoline.c" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="DarkSouls3.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="garamond.h" />
+    <ClCompile Include="GraphicsHook.cpp" />
+    <ClCompile Include="GraphicsHook.h" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MovementHooks.cpp" />
+    <ClCompile Include="MovementHooks.h" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="roboto.h" />
   </ItemGroup>
