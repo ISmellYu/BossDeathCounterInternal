@@ -1,12 +1,17 @@
 # BossDeathCounterInternal
 
 Program to easily keep track of deaths in various games, including adding bosses and keeping track of time spent on bosses\
-Shows overlay in corners of the game that displays current deaths and current boss
+Shows overlay in corners of the game that displays current deaths and current boss\
+**Supports only DirectX11!**
 
 
+# :warning: Warning
+🔴**PROGRAM DOESNT CHANGE ANY VALUES INSIDE THE GAME!(stats etc.)**🔴\
+🔴**BUT U COULD BE BANNED IF GAME THAT U ARE USING THIS PROGRAM WITH IS HAVING AN ANTICHEAT!**🔴\
+🔴**DISABLE ANY ANTICHEATS BEFORE INJECTING**🔴\
+🔴**I DO NOT TAKE RESPONSIBILITY FOR ANY BANS**🔴
 # Run
-
-Inject `BossDeathCounterInternalDX11x64.dll`(64bit) or `BossDeathCounterInternalDX11x86.dll`(32bit) using any injector supporting LoadLibrary(unload functionality) into desired game
+Inject `BossDeathCounterInternalDX11x64.dll`(64bit) or `BossDeathCounterInternalDX11x86.dll`(32bit) using any injector supporting LoadLibrary(unload functionality) into desired game\
 
 
 # Usage
@@ -23,7 +28,7 @@ Inject `BossDeathCounterInternalDX11x64.dll` dll if game is 64-bit\
 Inject `BossDeathCounterInternalDX11x86.dll` dll if game is 32-bit
 
 
-
+**Make sure that game u are trying to inject is using DirectX11!**\
 Disable ANY anticheats in desired game
 
 # Images
