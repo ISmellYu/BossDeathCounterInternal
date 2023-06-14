@@ -32,7 +32,7 @@ jobs:
       run: vcpkg integrate install
       
     - name: Vcpkg install required pacakges
-      run: vcpkg install boost
+      run: vcpkg install boost-json
 
     - name: Build x64
       working-directory: ${{env.GITHUB_WORKSPACE}}
