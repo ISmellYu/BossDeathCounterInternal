@@ -27,6 +27,12 @@ jobs:
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Vcpkg integrate
+      run: vcpkg integrate install
+      
+    - name: Vcpkg install required pacakges
+      run: vcpkg install boost
 
     - name: Build x64
       working-directory: ${{env.GITHUB_WORKSPACE}}
