@@ -14,6 +14,7 @@ namespace Offsets
 		namespace Functions
 		{
 			static uintptr_t AddDeathCount = 0x47CEF0;
+			static uintptr_t GetKeyState = 0x761610;
 		}
 		
 	}

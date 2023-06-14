@@ -156,6 +156,9 @@
     <ClInclude Include="DirectX11Interface.h">
       <Filter>Base hooks</Filter>
     </ClInclude>
+    <ClInclude Include="VkCodes.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Directories\MinHook\Src\buffer.c">

@@ -69,6 +69,16 @@ namespace Global
 		return false;
 	}
 
+	inline bool CheckIfUsingXInput()
+	{
+		if (GetModuleHandle("xinput1_4.dll") || GetModuleHandle("xinput1_3.dll") || GetModuleHandle("xinput1_2.dll") || GetModuleHandle("xinput1_1.dll") || 
+			GetModuleHandle("XInput9_1_0.dll"))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	inline WNDCLASSEX WindowClass;
 	inline HWND WindowHwnd;
 
