@@ -38,6 +38,7 @@ Json::Value getBossesList(Game* game)
 		bossJson["start"] = boss->startDate;
 		bossJson["end"] = boss->endDate;
 		bossJson["state"] = boss->state;
+		bossJson["elapsed"] = boss->GetElapsedTime().time_s;
 		bossJson["pauses"] = getPauseList(boss.get());
 		bossList.append(bossJson);
 	}
