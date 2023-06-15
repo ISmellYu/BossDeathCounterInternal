@@ -159,6 +159,9 @@
     <ClInclude Include="VkCodes.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="SaveHandler.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Directories\MinHook\Src\buffer.c">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="DarkSouls3.cpp">
       <Filter>Game Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveHandler.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

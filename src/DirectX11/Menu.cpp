@@ -4,12 +4,27 @@
 #include "Boss.h"
 #include "imgui_helpers.h"
 #include "imgui_notify.h"
+#include "SaveHandler.h"
 #include "State.h"
 
 namespace Menu
 {
 	static std::string preview_value;
 	static int current_item_index = 0;
+
+	void HandlePreviewValue()
+	{
+		if (State::currentGame->bosses.empty())
+		{
+			preview_value = "";
+		}
+		else
+		{
+			if (current_item_index == -1)
+				current_item_index = 0;
+			preview_value = State::currentGame->bosses[current_item_index]->bossName;
+		}
+	}
 
 	void ShowBossList()
 	{
@@ -48,6 +63,61 @@ namespace Menu
 			{
 				showRemoveConfirm = !showRemoveConfirm;
 			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Save", ImVec2(70, 26)))
+		{
+			State::currentGame->PauseCurrentBoss();
+			SaveHandler::Save(State::currentGame.get(), "save.json");
+			ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Saved!"});
+		}
+
+		ImGui::SameLine();
+		static bool showLoadConfirm = false;
+		if (ImGui::Button("Load", ImVec2(70, 26)))
+		{
+			showLoadConfirm = !showLoadConfirm;
+		}
+
+		if (showLoadConfirm)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			ImGui::SetNextWindowPos({io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f}, ImGuiCond_Always, {0.5f, 0.5f});
+			if (ImGui::Begin("Load confirm", &showLoadConfirm, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDecoration |
+			                 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove |
+			                 ImGuiWindowFlags_NoSavedSettings))
+			{
+				ImGui::Text("Do you really want to load save file?");
+				if (ImGui::Button("Yes"))
+				{
+					State::currentGame = SaveHandler::Load("save.json");
+
+					// make changes to preview value
+					if (State::currentGame->currentBoss != nullptr)
+					{
+						int idx = 0;
+
+						for (int i = 0; i < State::currentGame->bosses.size(); i++)
+						{
+							if (State::currentGame->currentBoss == State::currentGame->bosses[i])
+							{
+								idx = i;
+							}
+						}
+						current_item_index = idx;
+					}
+
+					// HandlePreviewValue();
+					showLoadConfirm = !showLoadConfirm;
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("No"))
+				{
+					showLoadConfirm = !showLoadConfirm;
+				}
+			}
+			ImGui::End();
 		}
 
 		if (showRemoveConfirm)
@@ -111,20 +181,6 @@ namespace Menu
 				// ImGui::End();
 			}
 			ImGui::End();
-		}
-	}
-
-	void HandlePreviewValue()
-	{
-		if (State::currentGame->bosses.empty())
-		{
-			preview_value = "";
-		}
-		else
-		{
-			if (current_item_index == -1)
-				current_item_index = 0;
-			preview_value = State::currentGame->bosses[current_item_index]->bossName;
 		}
 	}
 
@@ -327,7 +383,7 @@ namespace Menu
 		auto& x = ImGui::GetIO();
 		auto d = ImGui::GetMainViewport();
 		// ImGui::ShowDemoWindow();
-		ImGui::Begin("BossDeathCounter", NULL, ImGuiWindowFlags_NoBringToFrontOnFocus);
+		ImGui::Begin("BossDeathCounter", NULL, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_AlwaysAutoResize);
 		HandlePreviewValue();
 		ShowBossList();
 

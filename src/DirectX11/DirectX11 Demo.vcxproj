@@ -54,6 +54,7 @@
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="SaveHandler.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="tahoma.h" />
     <ClInclude Include="VkCodes.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="MovementHooks.h" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="roboto.h" />
+    <ClCompile Include="SaveHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -165,6 +167,13 @@
     <TargetName>$(ProjectName) (x64)</TargetName>
     <OutDir>$(SolutionDir)Build\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgConfiguration>Debug</VcpkgConfiguration>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -209,6 +218,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -227,6 +237,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
