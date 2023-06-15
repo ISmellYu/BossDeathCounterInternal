@@ -33,8 +33,8 @@ jobs:
       
     - name: Vcpkg install required pacakges
       run:  |
-        vcpkg install boost-json:x86-windows
-        vcpkg install boost-json:x64-windows
+        vcpkg install jsoncpp:x86-windows-static
+        vcpkg install jsoncpp:x64-windows-static
 
     - name: Build x64
       working-directory: ${{env.GITHUB_WORKSPACE}}
