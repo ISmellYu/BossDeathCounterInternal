@@ -66,8 +66,8 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 	}
 
 	// initialize currentgame by presets
-	AllocConsole();
-	freopen("CONOUT$", "w", stdout);
+	// AllocConsole();
+	// freopen("CONOUT$", "w", stdout);
 	State::currentGame = std::make_unique<Game>("Game");
 
 	GraphicsHook::Hook();
@@ -82,7 +82,7 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 	}
 
 	ReleaseAllAndRestore();
-	FreeConsole();
+	// FreeConsole();
 	FreeLibraryAndExitThread(Process::Module, 0);
 }
 
