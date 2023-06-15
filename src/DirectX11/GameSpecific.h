@@ -20,10 +20,9 @@ namespace GameSpecific
 			return;
 		uintptr_t g_saveInfo = *(uintptr_t*)((uintptr_t)GetModuleHandle(nullptr) + Offsets::DS3::oSaveInfo);
 
-		while (g_saveInfo == NULL)
+		while (*(bool*)(g_saveInfo + Offsets::DS3::SaveInfo::isSaveLoaded) == false)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			g_saveInfo = *(uintptr_t*)((uintptr_t)GetModuleHandle(nullptr) + Offsets::DS3::oSaveInfo);
 		}
 		int deaths = *(int*)(g_saveInfo + Offsets::DS3::SaveInfo::deaths);
 		State::currentGame->deaths = deaths;

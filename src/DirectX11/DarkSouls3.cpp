@@ -23,6 +23,17 @@ namespace DarkSouls3
 		return result;
 	}
 
+	__int64 __fastcall MJfnSaveRequest()
+	{
+		std::cout << "loool!\n";
+		return ofnSaveRequestDS3();
+	}
+
+	void __fastcall MJfnReportBossArea(__int64 a1, __int64 a2, __int64 a3)
+	{
+		
+	}
+
 	void HookDeaths()
 	{
 		void* funAddr = (void*)(((uintptr_t)GetModuleHandle(nullptr)) + Offsets::DS3::Functions::AddDeathCount);
@@ -41,10 +52,20 @@ namespace DarkSouls3
 		}
 	}
 
+	void HookSomething()
+	{
+		void* funAddr = (void*)(((uintptr_t)GetModuleHandle(nullptr)) + Offsets::DS3::Functions::SaveRequest);
+		if (MH_CreateHook(funAddr, MJfnSaveRequest, (void**)&ofnSaveRequestDS3) == MH_OK)
+		{
+			MH_EnableHook(funAddr);
+		}
+	}
+
 	bool Hook()
 	{
 		HookDeaths();
 		HookKeyboard();
+		HookSomething();
 		return true;
 	}
 
