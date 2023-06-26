@@ -11,6 +11,9 @@
 #include "State.h"
 #include "Windows.h"
 #include "Offsets.h"
+#include <fstream>
+
+#include "SaveHandler.h"
 
 void ReleaseAllAndRestore()
 {
@@ -38,7 +41,7 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 		GetWindowThreadProcessId(GetForegroundWindow(), &ForegroundWindowProcessID);
 		if (GetCurrentProcessId() == ForegroundWindowProcessID)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
 			Process::ID = GetCurrentProcessId();
 			Process::Handle = GetCurrentProcess();
@@ -68,7 +71,18 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 	// initialize currentgame by presets
 	// AllocConsole();
 	// freopen("CONOUT$", "w", stdout);
-	State::currentGame = std::make_unique<Game>("Game");
+
+	// check if save exists
+
+	std::ifstream infile("save.json");
+	if (infile.good())
+	{
+		State::currentGame = SaveHandler::Load("save.json");
+	}
+	else
+	{
+		State::currentGame = std::make_unique<Game>("Game");
+	}
 
 	GraphicsHook::Hook();
 	MovementHooks::HookAll();
