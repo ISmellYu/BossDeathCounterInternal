@@ -9,7 +9,7 @@ Shows overlay in corners of the game that displays current deaths and current bo
 **Currently program supports DS3 for automatic death counting(without need to click keys!)**
 
 # :warning: Warning
-🔴**PROGRAM DOESNT CHANGE ANY VALUES INSIDE THE GAME!(stats etc.)**🔴\
+🔴**PROGRAM DOESNT CHANGE ANY CRUCIAL VALUES INSIDE THE GAME!(stats etc.)**🔴\
 🔴**BUT U COULD BE BANNED IF GAME THAT U ARE USING THIS PROGRAM WITH IS HAVING AN ANTICHEAT!**🔴\
 🔴**DISABLE ANY ANTICHEATS BEFORE INJECTING**🔴\
 🔴**I DO NOT TAKE RESPONSIBILITY FOR ANY BANS**🔴
