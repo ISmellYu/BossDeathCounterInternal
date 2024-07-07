@@ -69,7 +69,13 @@ bool Game::AddBoss(std::string name)
 void Game::IncrementDeaths()
 {
 	if (currentBoss != nullptr)
-		currentBoss->deaths++;
+	{
+		// check if is paused
+		if (currentBoss->state == Started)
+		{
+			currentBoss->deaths++;
+		}
+	}
 	deaths++;
 }
 
