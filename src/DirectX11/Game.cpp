@@ -2,6 +2,7 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include "SaveHandler.h"
 
 Game::Game(std::string name)
 {
@@ -24,6 +25,8 @@ void Game::SetCurrentBoss(const std::string& name)
 			return;
 		}
 	}
+
+	SaveHandler::Save(this, "save.json");
 }
 
 void Game::EndCurrentBoss()
@@ -33,6 +36,7 @@ void Game::EndCurrentBoss()
 
 	currentBoss->EndBoss();
 	currentBoss = nullptr;
+	SaveHandler::Save(this, "save.json");
 }
 
 void Game::RemoveBoss(const std::string& name)
@@ -50,6 +54,7 @@ void Game::RemoveBoss(const std::string& name)
 			return;
 		}
 	}
+	SaveHandler::Save(this, "save.json");
 }
 
 bool Game::AddBoss(std::string name)
@@ -62,7 +67,7 @@ bool Game::AddBoss(std::string name)
 
 	auto boss = std::make_shared<Boss>(std::move(name));
 	bosses.emplace_back(std::move(boss));
-
+	SaveHandler::Save(this, "save.json");
 	return true;
 }
 
@@ -77,6 +82,7 @@ void Game::IncrementDeaths()
 		}
 	}
 	deaths++;
+	SaveHandler::Save(this, "save.json");
 }
 
 void Game::DecrementDeaths()
@@ -86,6 +92,7 @@ void Game::DecrementDeaths()
 	if (deaths <= 0)
 		return;
 	deaths--;
+	SaveHandler::Save(this, "save.json");
 }
 
 
@@ -97,7 +104,6 @@ bool Game::CheckIfExists(const std::string& name)
 	for (auto& boss : bosses)
 	{
 		if (boss->bossName == name)
-
 			return true;
 	}
 	return false;
@@ -107,14 +113,18 @@ bool Game::PauseCurrentBoss()
 {
 	if (currentBoss == nullptr)
 		return false;
-	return currentBoss->PauseBoss();
+	auto state = currentBoss->PauseBoss();
+	SaveHandler::Save(this, "save.json");
+	return state;
 }
 
 bool Game::ResumeCurrentBoss()
 {
 	if (currentBoss == nullptr)
 		return false;
-	return currentBoss->ResumeBoss();
+	auto state = currentBoss->ResumeBoss();
+	SaveHandler::Save(this, "save.json");
+	return state;
 }
 
 

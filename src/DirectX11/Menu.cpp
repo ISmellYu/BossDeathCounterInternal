@@ -290,6 +290,7 @@ namespace Menu
 				if (currentBoss->PauseBoss())
 				{
 					ImGui::InsertNotification({ImGuiToastType_Info, 4000, "Boss paused"});
+					SaveHandler::Save(State::currentGame.get(), "save.json");
 				}
 				else
 				{
@@ -353,6 +354,7 @@ namespace Menu
 						if (currentBoss->EndBoss())
 						{
 							ImGui::InsertNotification({ImGuiToastType_Success, 4000, "Boss ended!"});
+							SaveHandler::Save(State::currentGame.get(), "save.json");
 						}
 						else
 						{
