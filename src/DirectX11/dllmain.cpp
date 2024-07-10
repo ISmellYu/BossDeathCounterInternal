@@ -95,6 +95,9 @@ DWORD WINAPI MainThread(LPVOID lpParameter)
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
+	// save all
+	State::currentGame->PauseCurrentBoss();
+	SaveHandler::Save(State::currentGame.get(), "save.json");
 	ReleaseAllAndRestore();
 	// FreeConsole();
 	FreeLibraryAndExitThread(Process::Module, 0);
